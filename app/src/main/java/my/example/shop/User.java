@@ -59,7 +59,7 @@ public class User {
         password = val[1];
         name = val[2];
         isAdmin = Boolean.parseBoolean(val[3]);
-        if (val.length > 4) avatar = val[4];
+        if (val.length > 4) avatar = val[4]; // последний элемент массива может пропасть, если параметр пуст
     }
 
 

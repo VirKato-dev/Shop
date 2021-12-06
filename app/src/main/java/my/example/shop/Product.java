@@ -71,7 +71,7 @@ public class Product {
         name = val[1];
         weight = Integer.parseInt(val[2]);
         price = Double.parseDouble(val[3]);
-        if (val.length > 4) description = val[4];
+        if (val.length > 4) description = val[4]; // последний элемент массива может пропасть, если параметр пуст
     }
 
 
