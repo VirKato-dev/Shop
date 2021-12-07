@@ -18,21 +18,6 @@ import java.util.Scanner;
 public class FileDB {
 
     /***
-     * имя базы данных о пользователях.
-     */
-    private final static String db_users = "users.db";
-
-    /***
-     * имя базы данных о товарах.
-     */
-    private final static String db_prods = "products.db";
-
-    /***
-     * имя базы данных о содержимом корзин пользователей.
-     */
-    private final static String db_carts = "carts.db";
-
-    /***
      * Папка для хранения файлов базы данных.
      */
     private static File dir;
@@ -68,10 +53,8 @@ public class FileDB {
      * @param db файл базы данных
      * @param str данных
      */
-    private static void add(String db, String str) {
-        // метод приватный, потому что название файла неизвестно за пределами данного класса
-
-        File file = new File(dir, db);
+    public static void add(DB db, String str) {
+        File file = new File(dir, db.toString());
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -91,11 +74,10 @@ public class FileDB {
     /***
      * Удалить данные из указанного файла по идентификатору.
      */
-    private static void remove(String db, String id) {
-        // метод приватный, потому что название файла неизвестно за пределами данного класса.
+    public static void remove(DB db, String id) {
         // сделать копию файла для последующего обновления данных
         File file_from = new File(dir, db + ".bak");
-        File file_to = new File(dir, db);
+        File file_to = new File(dir, db.toString());
         if (file_to.exists()) file_to.renameTo(new File(dir, db + ".bak"));
         try {
             if (!file_from.exists()) {
@@ -140,9 +122,8 @@ public class FileDB {
      * @param id идентификатор
      * @return данные о сеансе
      */
-    private static String find(String db, String id) {
-        // метод приватный, потому что название файла неизвестно за пределами данного класса
-        File file_from = new File(dir, db);
+    public static String find(DB db, String id) {
+        File file_from = new File(dir, db.toString());
         try {
             if (!file_from.exists()) {
                 file_from.createNewFile();
@@ -178,7 +159,7 @@ public class FileDB {
      * @param db файл базы
      * @return уникальный идентификатор
      */
-    private String generateId(String db) {
+    public static String generateId(DB db) {
         String newId = "";
         while (true){
             newId = "id" + new Random().nextInt();
@@ -188,117 +169,4 @@ public class FileDB {
         // когда не нашлись данные с таким идентификатором
         return newId;
     }
-
-
-    /***
-     * Найти пользователя в базе по логину.
-     * @param login идентификатор пользователя.
-     * @return пользователь с параметрами либо "пустой".
-     */
-    public static User findUserByLogin(String login) {
-        User user = new User();
-        String data = find(db_users, login);
-        if (!data.equals("")) {
-            // если данные найдены, то используем их как параметры пользователя
-            user.fromString(data);
-        }
-        return user;
-    }
-
-
-    /***
-     * Поместить данные пользователя в базу.
-     */
-    public static void addUser(User user) {
-        // старые данные из базы удалить, чтобы небыло дубликатов информации
-        remove(db_users, user.id);
-        add(db_users, user.toString());
-    }
-
-
-    /***
-     * Найти товар в базе по идентификатору.
-     * @param id идентификатор товара
-     * @return товар с параметрами либо "пустой".
-     */
-    public static Product findProductById(String id) {
-        Product product = new Product();
-        String data = find(db_prods, id);
-        if (!data.equals("")) {
-            // если данные найдены, то используем их как параметры товара
-            product.fromString(data);
-        }
-        return product;
-    }
-
-
-    /***
-     * Получить новый уникальный идентификатор товара.
-     * @return уникальный идентификатор товара.
-     */
-    public String getNewProductId() {
-        return generateId(db_prods);
-    }
-
-
-    /***
-     * Поместить данные товара в базу.
-     */
-    public static void addProduct(Product product) {
-        // старые данные из базы удалить, чтобы небыло дубликатов информации
-        remove(db_prods, product.id);
-        add(db_prods, product.toString());
-    }
-
-
-    /***
-     * Удалить данные товара из базы.
-     */
-    public static void removeProduct(Product product) {
-        remove(db_prods, product.id);
-    }
-
-
-    /***
-     * Найти покупку в базе по идентификатору.
-     * @param id идентификатор покупки
-     * @return покупка с параметрами либо "пустая".
-     */
-    public static Cart findCartById(String id) {
-        Cart cart = new Cart();
-        String data = find(db_carts, id);
-        if (!data.equals("")) {
-            // если данные найдены, то используем их как параметры покупки
-            cart.fromString(data);
-        }
-        return cart;
-    }
-
-
-    /***
-     * Получить новый уникальный идентификатор покупки.
-     * @return уникальный идентификатор покупки.
-     */
-    public String getNewCartId() {
-        return generateId(db_carts);
-    }
-
-
-    /***
-     * Поместить данные покупки в базу.
-     */
-    public static void addCart(Cart cart) {
-        // старые данные из базы удалить, чтобы небыло дубликатов информации
-        remove(db_carts, cart.id);
-        add(db_carts, cart.toString());
-    }
-
-
-    /***
-     * Удалить данные покупки из базы.
-     */
-    public static void removeCart(Cart cart) {
-        remove(db_carts, cart.id);
-    }
-
 }

@@ -45,8 +45,23 @@ public class User {
      * Сохранить данные пользователя в базу
      */
     public void save() {
-        FileDB.addUser(this);
+        FileDB.remove(DB.USERS, id);
+        FileDB.add(DB.USERS, toString());
     }
+
+
+    /***
+     * Найти параметры пользователя в базе по логину и использовать их.
+     * @param login идентификатор пользователя.
+     */
+    public void find(String login) {
+        String data = FileDB.find(DB.USERS, login);
+        if (!data.equals("")) {
+            // если данные найдены, то используем их как параметры пользователя
+            fromString(data);
+        }
+    }
+
 
 
     /***

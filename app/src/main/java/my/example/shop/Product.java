@@ -49,7 +49,8 @@ public class Product {
      * Сохранить данные товара в базу.
      */
     public void save() {
-        FileDB.addProduct(this);
+        FileDB.remove(DB.PRODUCTS, id);
+        FileDB.add(DB.PRODUCTS, toString());
     }
 
 
@@ -57,7 +58,28 @@ public class Product {
      * Удалить данные товара из базы.
      */
     public void remove() {
-        FileDB.removeProduct(this);
+        FileDB.remove(DB.PRODUCTS, id);
+    }
+
+
+    /***
+     * Найти параметры товара в базе по идентификатору и использовать их.
+     * @param id идентификатор товара
+     */
+    public void find(String id) {
+        String data = FileDB.find(DB.PRODUCTS, id);
+        if (!data.equals("")) {
+            // если данные найдены, то используем их как параметры товара
+            fromString(data);
+        }
+    }
+
+
+    /***
+     * Установить новый уникальный идентификатор товара.
+     */
+    public void setId() {
+        id = FileDB.generateId(DB.PRODUCTS);
     }
 
 

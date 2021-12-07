@@ -51,7 +51,8 @@ public class Cart {
      * Сохранить данные покупки в базу.
      */
     public void save() {
-        FileDB.addCart(this);
+        FileDB.remove(DB.CARTS, id);
+        FileDB.add(DB.CARTS, toString());
     }
 
 
@@ -59,7 +60,28 @@ public class Cart {
      * Удалить данные покупки из базы.
      */
     public void remove() {
-        FileDB.removeCart(this);
+        FileDB.remove(DB.CARTS, id);
+    }
+
+
+    /***
+     * Найти параметры покупки в базе по идентификатору и использовать их.
+     * @param id идентификатор покупки
+     */
+    public void find(String id) {
+        String data = FileDB.find(DB.CARTS, id);
+        if (!data.equals("")) {
+            // если данные найдены, то используем их как параметры покупки
+            fromString(data);
+        }
+    }
+
+
+    /***
+     * Получить новый уникальный идентификатор покупки.
+     */
+    public void setId() {
+        id = FileDB.generateId(DB.CARTS);
     }
 
 
