@@ -142,9 +142,7 @@ public class ProfileActivity extends AppCompatActivity {
         File f = new File(getExternalCacheDir(), name + ".png");
         try {
             f.createNewFile();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
+        } catch (IOException ignore) {}
         FileOutputStream fOut = null;
         try {
             fOut = new FileOutputStream(f);
@@ -175,7 +173,6 @@ public class ProfileActivity extends AppCompatActivity {
     private void setImageFromFile(ImageView iv, String path) {
         File imgFile = new File(path);
         if (imgFile.exists()) {
-//            Log.e("showImage", path + " exists");
             Bitmap bm = BitmapFactory.decodeFile(path);
             iv.setImageBitmap(bm);
         }

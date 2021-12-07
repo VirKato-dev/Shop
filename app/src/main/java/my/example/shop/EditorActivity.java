@@ -61,7 +61,6 @@ public class EditorActivity extends AppCompatActivity {
      * @param product товар.
      */
     private void showDetail(Product product) {
-        //TODO показать окно редактирования параметров товара
         if (!product.id.equals("")) {
             Toast.makeText(this, "Товар: " + product.name, Toast.LENGTH_LONG).show();
         } else {
