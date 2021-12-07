@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void register(String login, String password) {
         if (!login.equals("") && !password.equals("")) {
-            User user = new User();
+            User user = new User(DB.USERS);
             user.find(login);
             if (user.id.equals("")) {
                 // если пользователь "пустой", значит можно использовать этот логин для регистрации
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 // запускаем Activity админа
                 startActivity(new Intent(this, EditorActivity.class));
             } else {
-                User user = new User();
+                User user = new User(DB.USERS);
                 user.find(login);
                 if (user.id.equals(login) && user.password.equals(password)) {
                     // запускаем Activity покупателя

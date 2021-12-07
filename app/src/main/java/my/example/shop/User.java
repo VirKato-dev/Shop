@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 /***
  * Описание характеристик пользователя.
  */
-public class User {
+public class User extends DataEntity{
 
     /***
      * Логин пользователя. Уникальный.
@@ -35,33 +35,12 @@ public class User {
 
 
     /***
-     * Создать пользователя со стандартным набором параметров.
-     * Пустой.
+     * Создаваемый экземляр должен сразу быть привязан к определённому файлу хранения данных.
+     * @param db имя файла данных.
      */
-    public User() {}
-
-
-    /***
-     * Сохранить данные пользователя в базу
-     */
-    public void save() {
-        FileDB.remove(DB.USERS, id);
-        FileDB.add(DB.USERS, toString());
+    protected User(DB db) {
+        super(db);
     }
-
-
-    /***
-     * Найти параметры пользователя в базе по логину и использовать их.
-     * @param login идентификатор пользователя.
-     */
-    public void find(String login) {
-        String data = FileDB.find(DB.USERS, login);
-        if (!data.equals("")) {
-            // если данные найдены, то используем их как параметры пользователя
-            fromString(data);
-        }
-    }
-
 
 
     /***

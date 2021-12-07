@@ -7,12 +7,7 @@ import java.util.Locale;
 /***
  * Описание характеристик покупки на одно наименование товара.
  */
-public class Cart {
-
-    /***
-     * Идентификатор покупки.
-     */
-    public String id = "";
+public class Cart  extends DataEntity{
 
     /***
      * Идентификатор покупателя.
@@ -42,46 +37,13 @@ public class Cart {
 
 
     /***
-     * Создать покупку со стандартными параметрами.
+     * Создаваемый экземляр должен сразу быть привязан к определённому файлу хранения данных.
+     * Экземпляр изначально поинициализирован параметрами-пустышки.
+     * Поэтому называется "Пустой".
+     * @param db имя файла данных.
      */
-    public Cart() {}
-
-
-    /***
-     * Сохранить данные покупки в базу.
-     */
-    public void save() {
-        FileDB.remove(DB.CARTS, id);
-        FileDB.add(DB.CARTS, toString());
-    }
-
-
-    /***
-     * Удалить данные покупки из базы.
-     */
-    public void remove() {
-        FileDB.remove(DB.CARTS, id);
-    }
-
-
-    /***
-     * Найти параметры покупки в базе по идентификатору и использовать их.
-     * @param id идентификатор покупки
-     */
-    public void find(String id) {
-        String data = FileDB.find(DB.CARTS, id);
-        if (!data.equals("")) {
-            // если данные найдены, то используем их как параметры покупки
-            fromString(data);
-        }
-    }
-
-
-    /***
-     * Получить новый уникальный идентификатор покупки.
-     */
-    public void setId() {
-        id = FileDB.generateId(DB.CARTS);
+    protected Cart(DB db) {
+        super(db);
     }
 
 
