@@ -2,6 +2,7 @@ package my.example.shop.data;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /***
@@ -42,6 +43,21 @@ public class Product extends DataEntity {
      */
     public Product(DB db) {
         super(db);
+    }
+
+
+    /***
+     * Получить все товары в виде списка
+     * @return список Product
+     */
+    public ArrayList<Product> getAll() {
+        ArrayList<Product> list = new ArrayList<>();
+        for (String str : FileDB.getAll(db)) {
+            Product p = new Product(db);
+            p.fromString(str);
+            list.add(p);
+        }
+        return list;
     }
 
 

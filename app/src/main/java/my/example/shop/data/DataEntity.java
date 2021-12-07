@@ -2,6 +2,8 @@ package my.example.shop.data;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+
 /***
  * Общая концепция работы с данными хранящимися в файлах.
  * Этот абстрактный класс позволит избавиться от кучи повторяющегося кода.
@@ -28,7 +30,8 @@ abstract class DataEntity {
     /***
      * Нельзя создавать экземпляр класса без параметров.
      */
-    private DataEntity() {}
+    private DataEntity() {
+    }
 
 
     /***
@@ -39,7 +42,16 @@ abstract class DataEntity {
      */
     public DataEntity(DB db) {
         this.db = db;
-    };
+    }
+
+
+    /***
+     * Получить все данные соответствующего типа (User, Product, Cart) в виде списка
+     * @return список всех данных
+     */
+    public ArrayList<?> getAll() {
+        return FileDB.getAll(db);
+    }
 
 
     /***
@@ -47,7 +59,7 @@ abstract class DataEntity {
      */
     public void save() {
         FileDB.remove(db, id);
-        FileDB.add(DB.PRODUCTS, toString());
+        FileDB.add(db, toString());
     }
 
 
@@ -76,9 +88,9 @@ abstract class DataEntity {
     /***
      * Установить новый уникальный идентификатор данных.
      */
-     public void setId() {
-         id = FileDB.generateId(db);
-     }
+    public void setId() {
+        id = FileDB.generateId(db);
+    }
 
 
     /***

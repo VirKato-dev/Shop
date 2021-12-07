@@ -29,7 +29,7 @@ public class User extends DataEntity{
     public boolean isAdmin = false;
 
     /***
-     * Путь к файлу аватарки пользователя.
+     * Аватарка пользователя в текстовом формате.
      */
     public String avatar = "";
 

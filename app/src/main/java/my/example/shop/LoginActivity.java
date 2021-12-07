@@ -95,7 +95,10 @@ public class LoginActivity extends AppCompatActivity {
                 user.find(login);
                 if (user.id.equals(login) && user.password.equals(password)) {
                     // запускаем Activity покупателя
-                    startActivity(new Intent(this, BuyerActivity.class));
+                    Intent i = new Intent(this, BuyerActivity.class);
+                    // передаём данные пользователя, чтобы дальше работать от его лица
+                    i.putExtra("profile", user.toString());
+                    startActivity(i);
                 } else {
                     Toast.makeText(this, "Такой пользователь не найден", Toast.LENGTH_LONG).show();
                 }

@@ -2,7 +2,19 @@ package my.example.shop;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import my.example.shop.adapter.ProductsAdapter;
+import my.example.shop.data.DB;
+import my.example.shop.data.Product;
+import my.example.shop.data.User;
 
 /***
  * Экран покупателя.
@@ -12,11 +24,56 @@ import android.os.Bundle;
  */
 public class BuyerActivity extends AppCompatActivity {
 
+    private Button b_profile;
+    private ListView lv_products;
+
+    private ProductsAdapter productsAdapter;
+    private Product product = new Product(DB.PRODUCTS);
+
+    private String profile;
+    private User user = new User(DB.USERS);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer);
 
+        b_profile = findViewById(R.id.b_profile);
+        b_profile.setOnClickListener(v -> {
+            showProfile();
+        });
+
+        productsAdapter = new ProductsAdapter(product.getAll());
+        lv_products = findViewById(R.id.lv_products);
+        lv_products.setOnItemClickListener((parent, view, position, id) -> {
+            showCart(productsAdapter.getItem(position));
+        });
+
         setTitle("Все товары");
+
+        profile = getIntent().getStringExtra("profile");
+        if (profile == null) {
+            finish();
+        } else {
+            user.fromString(profile);
+        }
+
+    }
+
+
+    /***
+     * Показать данные профиля покупателя.
+     */
+    private void showProfile() {
+        Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("profile", user.toString());
+        startActivity(i);
+    }
+
+
+    private void showCart(Product product) {
+        //TODO показать окно редактирования параметров покупки
+        Toast.makeText(this, "Купить: " + product.name, Toast.LENGTH_LONG).show();
     }
 }
