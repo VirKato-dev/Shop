@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import my.example.shop.data.DB;
+import my.example.shop.data.User;
+
 /***
  * Экран авторизации пользователя и админа.
  * Возможна самостоятельная регистрация.

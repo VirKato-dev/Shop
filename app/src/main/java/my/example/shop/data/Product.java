@@ -1,4 +1,4 @@
-package my.example.shop;
+package my.example.shop.data;
 
 import androidx.annotation.NonNull;
 

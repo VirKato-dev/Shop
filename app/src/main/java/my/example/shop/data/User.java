@@ -1,4 +1,4 @@
-package my.example.shop;
+package my.example.shop.data;
 
 import androidx.annotation.NonNull;
 
@@ -38,7 +38,7 @@ public class User extends DataEntity{
      * Создаваемый экземляр должен сразу быть привязан к определённому файлу хранения данных.
      * @param db имя файла данных.
      */
-    protected User(DB db) {
+    public User(DB db) {
         super(db);
     }
 

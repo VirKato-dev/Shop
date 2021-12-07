@@ -1,4 +1,4 @@
-package my.example.shop;
+package my.example.shop.data;
 
 import androidx.annotation.NonNull;
 
@@ -15,13 +15,13 @@ abstract class DataEntity {
      * Указатель на привязанный файл данных.
      * Обязателен во всех экземплярах.
      */
-    protected DB db;
+    public DB db;
 
     /***
      * Идентификатор. Уникальный.
      * Обязателен во всех экземплярах.
      */
-    protected String id = "";
+    public String id = "";
 
 
 
@@ -37,7 +37,7 @@ abstract class DataEntity {
      * Поэтому называется "Пустой".
      * @param db имя файла данных.
      */
-    protected DataEntity(DB db) {
+    public DataEntity(DB db) {
         this.db = db;
     };
 
@@ -45,7 +45,7 @@ abstract class DataEntity {
     /***
      * Сохранить данные в базу.
      */
-    protected void save() {
+    public void save() {
         FileDB.remove(db, id);
         FileDB.add(DB.PRODUCTS, toString());
     }
@@ -54,7 +54,7 @@ abstract class DataEntity {
     /***
      * Удалить данные из базы.
      */
-    protected void remove() {
+    public void remove() {
         FileDB.remove(db, id);
     }
 
@@ -63,7 +63,7 @@ abstract class DataEntity {
      * Найти параметры в базе по идентификатору и использовать их.
      * @param id идентификатор данных
      */
-    protected void find(String id) {
+    public void find(String id) {
         // используется не родной id, так как в "Пустом" экземпляре он равен ""
         String data = FileDB.find(db, id);
         if (!data.equals("")) {
@@ -76,7 +76,7 @@ abstract class DataEntity {
     /***
      * Установить новый уникальный идентификатор данных.
      */
-     protected void setId() {
+     public void setId() {
          id = FileDB.generateId(db);
      }
 
