@@ -58,7 +58,7 @@ abstract class DataEntity {
      * Сохранить данные в базу.
      */
     public void save() {
-        FileDB.remove(db, id);
+        remove();
         FileDB.add(db, toString());
     }
 

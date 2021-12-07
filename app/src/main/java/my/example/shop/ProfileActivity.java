@@ -17,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import my.example.shop.data.DB;
 import my.example.shop.data.User;
@@ -73,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity {
             // если строчка не пустая, значит есть что показать на экране
             user.fromString(profile);
             showDetail();
-
         }
     }
 
@@ -90,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            user.avatar = bitmapToText(imageBitmap);
+            saveBitmapToFile(user.id, imageBitmap);
             i_avatar.setImageBitmap(imageBitmap);
         }
     }
@@ -103,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
         e_my_password.setText(user.password);
         e_my_name.setText(user.name);
         if (!user.avatar.equals("")) {
-            i_avatar.setImageBitmap(textToBitmap(user.avatar));
+            setImageFromFile(i_avatar, user.avatar);
         }
     }
 
@@ -132,26 +135,50 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     /***
-     * Закодировать картинку в текст
-     * @param bm картинка
-     * @return текст
+     * Сохранить картинку в файл для повторного использования.
+     * @param name id пользователя будет именем файла.
+     * @param bm картинка.
      */
-    private String bitmapToText(Bitmap bm) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        return Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+    private void saveBitmapToFile(String name, Bitmap bm) {
+        File f = new File(getExternalCacheDir(), name + ".png");
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+        FileOutputStream fOut = null;
+        try {
+            fOut = new FileOutputStream(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+        try {
+            fOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fOut.close();
+            // при удачном сохранении и закрытии потока
+            // запишем полный путь к файлу сразу в данные профиля
+            user.avatar = f.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     /***
-     * Раскодировать текст как картинку
-     * @param str кодированная картинка
-     * @return картинка
+     * Установить картинку из файла по указанному пути
+     * @param path путь к файлу
      */
-    private Bitmap textToBitmap(String str) {
-        byte[] decodedString = Base64.decode(str, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    private void setImageFromFile(ImageView iv, String path) {
+        File imgFile = new File(path);
+        if (imgFile.exists()) {
+//            Log.e("showImage", path + " exists");
+            Bitmap bm = BitmapFactory.decodeFile(path);
+            iv.setImageBitmap(bm);
+        }
     }
-
-
 }

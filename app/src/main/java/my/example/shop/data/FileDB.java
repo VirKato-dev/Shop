@@ -104,7 +104,7 @@ public class FileDB {
         // сделать копию файла для последующего обновления данных
         File file_from = new File(dir, db.toString() + ".bak");
         File file_to = new File(dir, db.toString());
-        if (file_to.exists()) file_to.renameTo(new File(dir, db.toString() + ".bak"));
+        if (file_to.exists()) file_to.renameTo(file_from);
         try {
             if (!file_from.exists()) {
                 // для правильной работы нам требуется наличие файла-источника (даже пустого)
