@@ -46,6 +46,7 @@ public class BuyerActivity extends AppCompatActivity {
 
         productsAdapter = new ProductsAdapter(product.getAll());
         lv_products = findViewById(R.id.lv_products);
+        lv_products.setAdapter(productsAdapter);
         lv_products.setOnItemClickListener((parent, view, position, id) -> {
             showCart(productsAdapter.getItem(position));
         });
@@ -59,6 +60,13 @@ public class BuyerActivity extends AppCompatActivity {
             user.fromString(profile);
         }
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        productsAdapter.setList(product.getAll());
     }
 
 

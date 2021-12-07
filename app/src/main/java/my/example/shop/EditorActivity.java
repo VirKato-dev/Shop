@@ -2,6 +2,7 @@ package my.example.shop;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -48,6 +49,13 @@ public class EditorActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        productsAdapter.setList(product.getAll());
+    }
+
+
     /***
      * Показать подробную информацию о товаре с возможностью редактирования.
      * @param product товар.
@@ -59,5 +67,10 @@ public class EditorActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Создать новый товар", Toast.LENGTH_LONG).show();
         }
+
+        Intent i = new Intent(this, ProductActivity.class);
+        // передать параметры товара в Activity для просмотр
+        i.putExtra("product", product.toString());
+        startActivity(i);
     }
 }

@@ -187,14 +187,14 @@ public class FileDB {
      */
     public static String generateId(DB db) {
         String newId = "";
-        while (true){
+        while (true) {
             newId = "id" + new Random().nextInt();
             String[] val = FileDB.find(db, newId).split("\\|");
             // идентификатор записан в строке как первый параметр
             // (урегулировано в соответствующих классах User, Product, Cart)
-            if (!val[0].equals("")) break;
-        };
-        // когда не нашлись данные с таким идентификатором
-        return newId;
+            if (val[0].equals("")) {
+                return newId;
+            }
+        }
     }
 }

@@ -89,7 +89,8 @@
             android:id="@+id/b_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Корзина" />
+            android:text="Корзина"
+            android:textSize="12sp" />
 
         <Space
             android:layout_width="wrap_content"
@@ -100,6 +101,7 @@
             android:id="@+id/b_my_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Сохранить" />
+            android:text="Сохранить"
+            android:textSize="12sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,14 +21,15 @@
             android:id="@+id/b_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Профиль" />
+            android:text="Профиль"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/lv_products"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_margin="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />

@@ -1,22 +1,18 @@
 package my.example.shop;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -82,10 +78,10 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     /***
-     * Для получения картинки с камеры
-     * @param requestCode номер запроса
-     * @param resultCode состояние ответа
-     * @param data тело ответа на запрос
+     * Для получения картинки с камеры.
+     * @param requestCode номер запроса.
+     * @param resultCode состояние ответа.
+     * @param data тело ответа на запрос.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /***
-     * Показать детали профиля покупателя
+     * Показать детали профиля покупателя.
      */
     private void showDetail() {
         e_my_login.setText(user.id);
@@ -111,6 +107,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    /***
+     * Сохранить изменения данных о покупателе.
+     */
     private void saveProfile() {
         user.name = e_my_name.getText().toString().trim();
         user.id = e_my_login.getText().toString().trim();
@@ -122,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     /***
-     * Получить картинку с камеры
+     * Получить картинку с камеры.
      */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
