@@ -1,17 +1,21 @@
 package my.example.shop;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -30,6 +34,7 @@ import my.example.shop.data.User;
 public class CartActivity extends AppCompatActivity {
 
     private LinearLayout l_edit_cart;
+    private ImageView i_cart_prod_picture;
     private TextView t_cart_prod_name;
     private EditText e_cart_total;
     private TextView t_cart_measure;
@@ -62,6 +67,7 @@ public class CartActivity extends AppCompatActivity {
         } else {
             user.fromString(usr);
 
+            i_cart_prod_picture = findViewById(R.id.i_cart_prod_picture);
             t_total_product_count = findViewById(R.id.t_total_product_count);
             t_total_product_amount = findViewById(R.id.t_total_product_amount);
             b_total_pay = findViewById(R.id.b_total_pay);
@@ -154,6 +160,7 @@ public class CartActivity extends AppCompatActivity {
             b_cart_confirm.setText("Добавить");
         }
         l_edit_cart.setVisibility(View.VISIBLE);
+        setImageFromFile(i_cart_prod_picture, product.picture);
         t_cart_prod_name.setText(product.name);
         e_cart_total.setText(String.format(Locale.ENGLISH, "%d", cart.total));
         double amount = calc(cart);
@@ -223,5 +230,21 @@ public class CartActivity extends AppCompatActivity {
         t_total_product_count.setText(String.format(Locale.ENGLISH, "%d", total_count));
         t_total_product_amount.setText(String.format(Locale.ENGLISH, "%.2f", total_amount));
     }
+
+
+    /***
+     * Установить картинку из файла по указанному пути
+     * @param path путь к файлу
+     */
+    private void setImageFromFile(ImageView iv, String path) {
+        File imgFile = new File(path);
+        if (imgFile.exists()) {
+            Bitmap bm = BitmapFactory.decodeFile(path);
+            iv.setImageBitmap(bm);
+        } else {
+            iv.setImageResource(R.drawable.ic_image);
+        }
+    }
+
 
 }

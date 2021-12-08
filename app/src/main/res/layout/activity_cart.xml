@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".CartActivity">
 
+    <ImageView
+        android:id="@+id/i_cart_prod_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_image" />
+
     <LinearLayout
         android:id="@+id/l_edit_cart"
         android:layout_width="0dp"
@@ -15,7 +25,7 @@
         android:orientation="vertical"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/i_cart_prod_picture"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView

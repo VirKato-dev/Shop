@@ -96,6 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+
     /***
      * Показать детали профиля покупателя.
      */

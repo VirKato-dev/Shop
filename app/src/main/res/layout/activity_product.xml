@@ -96,6 +96,14 @@
             android:inputType="textMultiLine"
             android:maxLines="3" />
 
+        <ImageView
+            android:id="@+id/i_info_prod_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_image" />
+
         <Button
             android:id="@+id/b_info_prod_save"
             android:layout_width="wrap_content"

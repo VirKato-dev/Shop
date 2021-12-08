@@ -35,6 +35,11 @@ public class Product extends DataEntity {
      */
     public String description = "";
 
+    /***
+     * Картинка товара.
+     */
+    public String picture = "";
+
 
     /***
      * Создать товар со стандартным набором параметров.
@@ -72,6 +77,7 @@ public class Product extends DataEntity {
         weight = Integer.parseInt(val[2]);
         price = Double.parseDouble(val[3]);
         if (val.length > 4) description = val[4]; // последний элемент массива может пропасть, если параметр пуст
+        if (val.length > 5) picture = val[5];
     }
 
 
@@ -86,7 +92,7 @@ public class Product extends DataEntity {
         return id + "|" + name + "|" +
                 String.format(Locale.ENGLISH,"%d", weight) + "|" +
                 String.format(Locale.ENGLISH,"%.2f", price) + "|" +
-                description;
+                description + "|" + picture;
     }
 
 }

@@ -1,11 +1,15 @@
 package my.example.shop.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -82,11 +86,29 @@ public class ProductsAdapter extends BaseAdapter {
         TextView t_product_name = convertView.findViewById(R.id.t_product_name);
         TextView t_product_price = convertView.findViewById(R.id.t_product_price);
         TextView t_product_description = convertView.findViewById(R.id.t_product_description);
+        ImageView i_product_picture = convertView.findViewById(R.id.i_product_picture);
 
         t_product_name.setText(getItem(position).name);
         t_product_price.setText(String.format(Locale.ENGLISH, "%.2f", getItem(position).price));
         t_product_description.setText(getItem(position).description);
+        setImageFromFile(i_product_picture, getItem(position).picture);
 
         return convertView;
     }
+
+
+    /***
+     * Установить картинку из файла по указанному пути
+     * @param path путь к файлу
+     */
+    private void setImageFromFile(ImageView iv, String path) {
+        File imgFile = new File(path);
+        if (imgFile.exists()) {
+            Bitmap bm = BitmapFactory.decodeFile(path);
+            iv.setImageBitmap(bm);
+        } else {
+            iv.setImageResource(R.drawable.ic_image);
+        }
+    }
+
 }
