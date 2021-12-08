@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 import my.example.shop.adapter.CartsAdapter;
@@ -33,6 +35,10 @@ public class CartActivity extends AppCompatActivity {
     private TextView t_cart_measure;
     private TextView t_total_amount;
     private Button b_cart_confirm;
+    private TextView t_total_product_count;
+    private TextView t_total_product_amount;
+    private Button b_total_pay;
+
 
     private Cart cart = new Cart(DB.CARTS);
     private CartsAdapter cartsAdapter;
@@ -56,6 +62,13 @@ public class CartActivity extends AppCompatActivity {
         } else {
             user.fromString(usr);
 
+            t_total_product_count = findViewById(R.id.t_total_product_count);
+            t_total_product_amount = findViewById(R.id.t_total_product_amount);
+            b_total_pay = findViewById(R.id.b_total_pay);
+            b_total_pay.setOnClickListener(v -> {
+                applyBuy();
+            });
+
             l_edit_cart = findViewById(R.id.l_edit_cart);
             l_edit_cart.setVisibility(View.GONE);
 
@@ -64,7 +77,8 @@ public class CartActivity extends AppCompatActivity {
             e_cart_total.addTextChangedListener(new TextWatcher() {
                 // считаем общую сумму для этого товара сразу при вводе количества товара
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -74,12 +88,13 @@ public class CartActivity extends AppCompatActivity {
                         } catch (Exception ignore) {
                             cart.total = 0L;
                         }
-                        t_total_amount.setText(String.format(Locale.ENGLISH, "%.2f", calc()));
+                        t_total_amount.setText(String.format(Locale.ENGLISH, "%.2f", calc(cart)));
                     }
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {}
+                public void afterTextChanged(Editable s) {
+                }
             });
 
             t_cart_measure = findViewById(R.id.t_cart_measure);
@@ -102,10 +117,12 @@ public class CartActivity extends AppCompatActivity {
             if (prod != null) {
                 // если совершаем новую покупку
                 product.fromString(prod);
+                cart.product_id = product.id;
                 showDetail();
             }
-        }
 
+            showList();
+        }
 
         setTitle("Корзина");
     }
@@ -125,7 +142,7 @@ public class CartActivity extends AppCompatActivity {
         cart.date_add = new Date().getTime();
 
         cart.save();
-        cartsAdapter.setList(cart.getAllFor(user.id));
+        showList();
     }
 
     /***
@@ -139,7 +156,7 @@ public class CartActivity extends AppCompatActivity {
         l_edit_cart.setVisibility(View.VISIBLE);
         t_cart_prod_name.setText(product.name);
         e_cart_total.setText(String.format(Locale.ENGLISH, "%d", cart.total));
-        double amount = calc();
+        double amount = calc(cart);
         t_total_amount.setText(String.format(Locale.ENGLISH, "%.2f", amount));
     }
 
@@ -148,18 +165,63 @@ public class CartActivity extends AppCompatActivity {
      * Посчитать общую стоимость для одного товара.
      * @return общая стоимость этого товара.
      */
-    private double calc() {
+    private double calc(Cart cart) {
+        Product prod = new Product(DB.PRODUCTS);
+        prod.find(cart.product_id);
+
         double amount = 0d;
-        if (product.weight < 0) {
+        if (prod.weight < 0) {
             // считать как за штуку
-            amount = cart.total * product.price;
+            amount = cart.total * prod.price;
             t_cart_measure.setText("шт.");
         } else {
             // считать как весовое
-            amount = cart.total * (product.price / product.weight);
+            amount = cart.total * (prod.price / prod.weight);
             t_cart_measure.setText("мл (гр)");
         }
         return amount;
+    }
+
+
+    /***
+     * Оплатить товары в корзине.
+     */
+    private void applyBuy() {
+        ArrayList<Cart> list = cart.getAllFor(user.id);
+        for (Cart cart : list) {
+            cart.date_buy = new Date().getTime();
+            cart.save();
+        }
+        showList();
+    }
+
+
+    /***
+     * Показать обновлённый список покупок без покупок с нулевым количеством.
+     */
+    private void showList() {
+        double total_amount = 0d;
+        int total_count = 0;
+        ArrayList<Cart> list = cart.getAllFor(user.id);
+        Iterator<Cart> it = list.iterator();
+        while (it.hasNext()) {
+            Cart cart = it.next();
+            if (cart.total == 0) {
+                // удалить, потому что количество купленного товара = 0
+                cart.remove();
+                it.remove();
+            } else {
+                if (cart.date_buy == 0) {
+                    // не считать, если товар уже куплен
+                    total_count++;
+                    total_amount += calc(cart);
+                }
+            }
+        }
+        cartsAdapter.setList(list);
+
+        t_total_product_count.setText(String.format(Locale.ENGLISH, "%d", total_count));
+        t_total_product_amount.setText(String.format(Locale.ENGLISH, "%.2f", total_amount));
     }
 
 }

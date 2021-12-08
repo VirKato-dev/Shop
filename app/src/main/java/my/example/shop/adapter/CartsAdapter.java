@@ -83,6 +83,7 @@ public class CartsAdapter extends BaseAdapter {
         }
 
         TextView t_cart_product_name = convertView.findViewById(R.id.t_cart_product_name);
+        TextView t_cart_product_paid = convertView.findViewById(R.id.t_cart_product_paid);
         TextView t_cart_product_lot = convertView.findViewById(R.id.t_cart_product_lot);
         TextView t_cart_product_measure = convertView.findViewById(R.id.t_cart_product_measure);
         TextView t_cart_product_amount = convertView.findViewById(R.id.t_cart_product_amount);
@@ -105,6 +106,11 @@ public class CartsAdapter extends BaseAdapter {
             t_cart_product_measure.setText("мл (гр)");
         }
         t_cart_product_amount.setText(String.format(Locale.ENGLISH, "%.2f", amount));
+
+        t_cart_product_paid.setText("");
+        if (getItem(position).date_buy > 0) {
+            t_cart_product_paid.setText("Куплено");
+        }
 
         return convertView;
     }
