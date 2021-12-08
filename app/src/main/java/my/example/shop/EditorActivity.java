@@ -70,6 +70,8 @@ public class EditorActivity extends AppCompatActivity {
         Intent i = new Intent(this, ProductActivity.class);
         // передать параметры товара в Activity для просмотр
         i.putExtra("product", product.toString());
+        // админ млжет редактировать данные о товаре
+        i.putExtra("edit", "true");
         startActivity(i);
     }
 }

@@ -2,6 +2,8 @@ package my.example.shop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -78,7 +80,10 @@ public class BuyerActivity extends AppCompatActivity {
 
 
     private void showCart(Product product) {
-        //TODO показать окно редактирования параметров покупки
-        Toast.makeText(this, "Купить: " + product.name, Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, CartActivity.class);
+        // передать товар в корзину для указания количества покупаемого товара
+        i.putExtra("product", product.toString());
+        i.putExtra("user", user.toString());
+        startActivity(i);
     }
 }

@@ -1,6 +1,7 @@
 package my.example.shop;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,6 +29,10 @@ public class ProductActivity extends AppCompatActivity {
     private Product product = new Product(DB.PRODUCTS);
 
 
+    /***
+     * Подготовка экрана
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,12 @@ public class ProductActivity extends AppCompatActivity {
             product.fromString(prod);
             showDetail();
         }
+
+        if (getIntent().getStringExtra("edit").equals("")) {
+            // когда не режим режим редактирования
+            b_info_prod_save.setVisibility(View.GONE);
+        }
+
     }
 
 

@@ -55,8 +55,10 @@ public class ProfileActivity extends AppCompatActivity {
         e_my_name = findViewById(R.id.e_my_name);
         b_cart = findViewById(R.id.b_cart);
         b_cart.setOnClickListener(v -> {
-            //TODO показать список покупок
-            Toast.makeText(v.getContext(), "Список покупок", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this, CartActivity.class);
+            // показать корзину указанного покупателя
+            i.putExtra("user", user.toString());
+            startActivity(i);
         });
 
         b_my_save = findViewById(R.id.b_my_save);

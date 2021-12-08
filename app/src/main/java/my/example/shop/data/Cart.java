@@ -2,12 +2,13 @@ package my.example.shop.data;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /***
  * Описание характеристик покупки на одно наименование товара.
  */
-public class Cart  extends DataEntity{
+public class Cart extends DataEntity{
 
     /***
      * Идентификатор покупателя.
@@ -42,8 +43,24 @@ public class Cart  extends DataEntity{
      * Поэтому называется "Пустой".
      * @param db имя файла данных.
      */
-    protected Cart(DB db) {
+    public Cart(DB db) {
         super(db);
+    }
+
+
+    /***
+     * Получить все покупки пользователя в виде списка
+     * @return список Cart
+     */
+    public ArrayList<Cart> getAllFor(String id) {
+        ArrayList<Cart> list = new ArrayList<>();
+        for (String str : FileDB.getAll(db)) {
+            Cart p = new Cart(db);
+            p.fromString(str);
+            // только для указанного пользователя
+            if (p.user_id.equals(id)) list.add(p);
+        }
+        return list;
     }
 
 

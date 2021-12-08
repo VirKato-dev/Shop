@@ -12,7 +12,9 @@ import java.util.Locale;
 import my.example.shop.R;
 import my.example.shop.data.Product;
 
-
+/***
+ * Адаптер для заполнения ListView товаров
+ */
 public class ProductsAdapter extends BaseAdapter {
 
     private ArrayList<Product> data;
