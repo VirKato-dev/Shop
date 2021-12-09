@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
@@ -151,29 +150,17 @@ public class ProductActivity extends AppCompatActivity {
      */
     private void saveBitmapToFile(String name, Bitmap bm) {
         File f = new File(getExternalCacheDir(), "prod_" + name + ".png");
+        if (f.exists()) f.delete();
         try {
             f.createNewFile();
-        } catch (IOException ignore) {}
-        FileOutputStream fOut = null;
-        try {
-            fOut = new FileOutputStream(f);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException ignore) {
         }
-        bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-        try {
+        try (FileOutputStream fOut = new FileOutputStream(f)) {
+            bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            fOut.close();
-            // при удачном сохранении и закрытии потока
             // запишем полный путь к файлу сразу в данные профиля
             product.picture = f.getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignore) {}
     }
 
 

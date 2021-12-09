@@ -1,8 +1,11 @@
 package my.example.shop.data;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 /***
