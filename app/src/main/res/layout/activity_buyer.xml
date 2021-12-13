@@ -18,6 +18,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
+            android:id="@+id/b_buyer_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="Корзина"
+            android:textSize="12sp" />
+
+        <Button
             android:id="@+id/b_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

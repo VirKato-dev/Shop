@@ -23,6 +23,7 @@ import my.example.shop.data.User;
  */
 public class BuyerActivity extends AppCompatActivity {
 
+    private Button b_buyer_cart;
     private Button b_profile;
     private ListView lv_products;
 
@@ -37,6 +38,14 @@ public class BuyerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer);
+
+        b_buyer_cart = findViewById(R.id.b_buyer_cart);
+        b_buyer_cart.setOnClickListener(v -> {
+            Intent i = new Intent(this, CartActivity.class);
+            // показать корзину указанного покупателя
+            i.putExtra("user", user.toString());
+            startActivity(i);
+        });
 
         b_profile = findViewById(R.id.b_profile);
         b_profile.setOnClickListener(v -> {
