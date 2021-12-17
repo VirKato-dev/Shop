@@ -115,16 +115,24 @@ public class ProductActivity extends AppCompatActivity {
      * Сохранить изменения данных о товаре.
      */
     private void saveProduct() {
-        if (product.id.equals("")) {
-            // для нового товара задать ID
-            product.setId();
+        if (e_info_prod_weight.getText().toString().trim().equals("") ||
+                e_info_prod_name.getText().toString().trim().equals("") ||
+                e_info_prod_price.getText().toString().trim().equals("") ||
+                e_info_prod_description.getText().toString().trim().equals("")
+        ) {
+            Toast.makeText(this, "Заполните все поля!", Toast.LENGTH_LONG).show();
+        } else {
+            if (product.id.equals("")) {
+                // для нового товара задать ID
+                product.setId();
+            }
+            product.weight = Long.parseLong(e_info_prod_weight.getText().toString().trim());
+            product.name = e_info_prod_name.getText().toString().trim();
+            product.price = Double.parseDouble(e_info_prod_price.getText().toString().trim().replaceAll(",", "."));
+            product.description = e_info_prod_description.getText().toString().trim();
+            product.save();
+            Toast.makeText(this, "Товар сохранён", Toast.LENGTH_LONG).show();
         }
-        product.weight = Long.parseLong(e_info_prod_weight.getText().toString().trim());
-        product.name = e_info_prod_name.getText().toString().trim();
-        product.price = Double.parseDouble(e_info_prod_price.getText().toString().trim().replaceAll(",", "."));
-        product.description = e_info_prod_description.getText().toString().trim();
-        product.save();
-        Toast.makeText(this, "Товар сохранён", Toast.LENGTH_LONG).show();
     }
 
 
@@ -158,7 +166,8 @@ public class ProductActivity extends AppCompatActivity {
             fOut.flush();
             // запишем полный путь к файлу сразу в данные профиля
             product.picture = f.getAbsolutePath();
-        } catch (IOException ignore) {}
+        } catch (IOException ignore) {
+        }
     }
 
 

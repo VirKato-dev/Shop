@@ -114,12 +114,18 @@ public class ProfileActivity extends AppCompatActivity {
      * Сохранить изменения данных о покупателе.
      */
     private void saveProfile() {
-        user.name = e_my_name.getText().toString().trim();
-        user.id = e_my_login.getText().toString().trim();
-        user.password = e_my_password.getText().toString().trim();
-        // аватарка добавляется в данные о пользователе в момент выбора картинки
-        user.save();
-        Toast.makeText(this, "Профиль сохранён", Toast.LENGTH_LONG).show();
+        if (e_my_name.getText().toString().trim().equals("") ||
+                e_my_login.getText().toString().trim().equals("") ||
+                e_my_password.getText().toString().trim().equals("")) {
+            Toast.makeText(this, "Заполните все поля!", Toast.LENGTH_LONG).show();
+        } else {
+            user.name = e_my_name.getText().toString().trim();
+            user.id = e_my_login.getText().toString().trim();
+            user.password = e_my_password.getText().toString().trim();
+            // аватарка добавляется в данные о пользователе в момент выбора картинки
+            user.save();
+            Toast.makeText(this, "Профиль сохранён", Toast.LENGTH_LONG).show();
+        }
     }
 
 
